@@ -9,4 +9,4 @@ function App() {
   );
 }
 
-export default Circle;
+export default App;
