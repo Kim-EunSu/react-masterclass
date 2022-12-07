@@ -75,8 +75,6 @@ function Coins() {
     })();
   }, []);
 
-  console.log(coins);
-
   return (
     <Container>
       <Header>

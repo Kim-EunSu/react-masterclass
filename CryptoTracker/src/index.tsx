@@ -7,9 +7,9 @@ import App from "./App";
 const container = document.getElementById("root") as HTMLElement;
 const root = createRoot(container);
 root.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <ThemeProvider theme={theme}>
+    <App />
+  </ThemeProvider>
+  // </React.StrictMode>
 );
