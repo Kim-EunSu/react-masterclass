@@ -18,7 +18,7 @@ const lightTheme = {
 
 ReactDOM.createRoot(rootNode).render(
   <React.StrictMode>
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={darkTheme}>
       <App />
     </ThemeProvider>
   </React.StrictMode>

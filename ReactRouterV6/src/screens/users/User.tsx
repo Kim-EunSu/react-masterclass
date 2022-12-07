@@ -3,7 +3,7 @@ import { users } from "../../db";
 import { Link } from "react-router-dom";
 
 function User() {
-  console.log(useOutletContext());
+  //   console.log(useOutletContext());
   const { userId } = useParams();
 
   return (
