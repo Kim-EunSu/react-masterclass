@@ -82,7 +82,9 @@ interface RouterParams {
 }
 
 interface RouteState {
-  name: string;
+  state: {
+    name: string;
+  };
 }
 
 interface InfoData {
@@ -146,8 +148,7 @@ interface PriceData {
 
 function Coin() {
   const { coinId } = useParams<"coinId">();
-  const location = useLocation();
-  const state = location.state as RouteState;
+  const { state } = useLocation() as RouteState;
   // useMatch에게 :coinId/price라는 URL에 있는지 확인
   const priceMathch = useMatch("/:coinId/price");
   const chartMathch = useMatch("/:coinId/chart");
