@@ -36,7 +36,7 @@ const Chart = () => {
             // series는 보내고 싶은 모든 data
             {
               name: "sales",
-              data: data?.map((price) => Number(price.close)) as number[],
+              data: data?.map((price) => Number(+price.close)) as number[],
             },
           ]}
           options={{

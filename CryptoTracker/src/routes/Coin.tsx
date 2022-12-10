@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCoinInfo } from "../api";
 import { fetchCoinTickers } from "../api";
 import { Helmet } from "react-helmet";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -153,6 +154,9 @@ function Coin() {
   const priceMathch = useMatch("/:coinId/price");
   const chartMathch = useMatch("/:coinId/chart");
 
+  //페이지 이동
+  const navigate = useNavigate();
+
   // coinId가 고유한 값
   // fetchCoinInfo함수를 불러와 url로부터 오는 coinId를 넣어줌
   // ["info", coinId]이렇게 함으로써 각각 고유한 id값을 가짐
@@ -202,6 +206,17 @@ function Coin() {
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
       </Header>
+
+      {/* 페이지 뒤로 이동 */}
+
+      <button
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        뒤로 가기
+      </button>
+
       {loading ? <Loader> Loading...</Loader> : null}
       {loading ? (
         <Loader>Loading...</Loader>
