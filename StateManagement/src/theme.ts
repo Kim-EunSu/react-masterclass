@@ -5,9 +5,3 @@ export const darkTheme: DefaultTheme = {
   textColor: "black",
   accentColor: "red",
 };
-
-export const lightTheme: DefaultTheme = {
-  bgColor: "whitesmoke",
-  textColor: "black",
-  accentColor: "red",
-};
