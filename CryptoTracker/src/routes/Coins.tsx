@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -22,7 +24,7 @@ const CoinsList = styled.ul``;
 
 const Coin = styled.li`
   background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
   border-radius: 15px;
   margin-bottom: 10px;
   a {
@@ -65,18 +67,11 @@ interface ICoin {
 }
 
 function Coins() {
+  // value를 가져오는 것이 아니라 설정하는 것
+  // serrerFn은 value을 설정하는 함수
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
-  // const [coins, setCoins] = useState<CoinInterface[]>([]);
-  // const [isLoading, setIsLoading] = useState(true);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await fetch("https://api.coinpaprika.com/v1/coins");
-  //     const json = await response.json();
-  //     setCoins(json.slice(0, 100));
-  //     setIsLoading(false);
-  //   })();
-  // }, []);
 
   return (
     <Container>
@@ -85,6 +80,7 @@ function Coins() {
           <title>코인</title>
         </Helmet>
         <Title>코인</Title>
+        <button onClick={toggleDarkAtom}>Toggle Mode</button>
       </Header>
       {isLoading ? (
         <Loader> Loading...</Loader>

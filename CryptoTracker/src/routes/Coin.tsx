@@ -147,7 +147,9 @@ interface PriceData {
   };
 }
 
-function Coin() {
+interface ICoinProps {}
+
+function Coin({}: ICoinProps) {
   const { coinId } = useParams<"coinId">();
   const { state } = useLocation() as RouteState;
   // useMatch에게 :coinId/price라는 URL에 있는지 확인
@@ -172,26 +174,6 @@ function Coin() {
     }
   );
 
-  // const [loading, setLoading] = useState(true);
-  // const [info, setInfo] = useState<InfoData>();
-  // const [priceInfo, setPriceInfo] = useState<PriceData>();
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const infoData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-  //     ).json();
-  //     console.log(infoData);
-  //     const priceData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-  //     ).json();
-  //     console.log(priceData);
-  //     setInfo(infoData);
-  //     setPriceInfo(priceData);
-  //     setLoading(false);
-  //   })();
-  // }, []);
-
   const loading = infoLoading || tickersLoading;
 
   return (
@@ -207,21 +189,19 @@ function Coin() {
         </Title>
       </Header>
 
-      {/* 페이지 뒤로 이동 */}
-
-      <button
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        뒤로 가기
-      </button>
-
       {loading ? <Loader> Loading...</Loader> : null}
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (
         <>
+          {/* 페이지 뒤로 이동 */}
+          <button
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            &larr;
+          </button>
           <Overview>
             <OverviewItem>
               <span>Rank:</span>
