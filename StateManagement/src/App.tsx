@@ -64,6 +64,9 @@ a {
   text-decoration:none;
   color:inherit;
 }
+span{
+  color: yellow;
+}
 `;
 
 function App() {
