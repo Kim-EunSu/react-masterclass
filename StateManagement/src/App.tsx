@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
-import ToDoList from "./ToDoList";
+import CreateToDo from "./components/CreateToDo";
+import ToDoList from "./components/ToDoList";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -16,6 +17,7 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 main, menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
+  color: white;
   margin: 0;
   padding: 0;
   border: 0;
@@ -67,6 +69,7 @@ a {
 span{
   color: yellow;
 }
+
 `;
 
 function App() {
