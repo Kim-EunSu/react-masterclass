@@ -1,43 +1,97 @@
-import { eventNames } from "process";
-import React from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { minuteState, hourSelector } from "./atoms";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "react-beautiful-dnd";
+import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { toDoState } from "./atoms";
+
+const Wrapper = styled.div`
+  display: flex;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const Boards = styled.div`
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(1, 1fr);
+`;
+
+const Board = styled.div`
+  padding: 20px 10px;
+  padding-top: 30px;
+  background-color: ${(props) => props.theme.boardColor};
+  border-radius: 5px;
+  min-height: 200px;
+`;
+
+const Card = styled.div`
+  border-radius: 5px;
+  margin-bottom: 5px;
+  padding: 10px 10px;
+  background-color: ${(props) => props.theme.cardColor};
+`;
 
 function App() {
-  const [minutes, setMinutes] = useRecoilState(minuteState);
+  // atom의 값과 수정 => useRecoilState
+  const [toDos, setToDos] = useRecoilState(toDoState);
 
-  //useRecoilState는 결과로 array를 주는데 array의 첫번째 item은 atom의 값이고, 두번째 argument는 atom을 수정하는 함수
-  // useRecoilState를 selector로 쓰고 있다면 결과값으로 array를 받게 됨
-  // => array의 첫번째 요소는 get property로부터 return한 값
-  // => 두번째 요소는 set property를 부르는 함수
-  // 즉, useRecoilState를 atom으로 쓸 수도 있고 selector로 쓸 수도 있음
-  // -> atom이나 selector로 useRecoilState를 쓸 때 결과  array의 첫번째 item은 atom의 값이거나 selector의 get함수의 값
-  // -> array의 두번째 요소는 atom을 수정하는 함수이거나 selector의 set property를 실행시키는 함수
-  const [hours, setHours] = useRecoilState(hourSelector);
+  // onDragEnd는 어떤 일이 일어났는지에 대한 정보로 많은 argument를 줌
+  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+    if (!destination) return;
 
-  const onMinuteChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setMinutes(+event.currentTarget.value);
-  };
+    setToDos((oldToDos) => {
+      const toDosCopy = [...oldToDos];
 
-  const onHouresChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setHours(+event.currentTarget.value);
+      console.log("Delete item on", source.index); // 원래의 index
+      console.log(toDosCopy); // 전체 배열
+      toDosCopy.splice(source.index, 1);
+      console.log(toDosCopy); // 움직인 toDo뺀 배열
+      toDosCopy.splice(destination?.index, 0, draggableId);
+      console.log(toDosCopy); //움직이고 난 전체배열
+
+      return toDosCopy;
+    });
   };
 
   return (
-    <>
-      <input
-        value={minutes}
-        onChange={onMinuteChange}
-        type="number"
-        placeholder="Minutes"
-      />
-      <input
-        value={hours}
-        onChange={onHouresChange}
-        type="number"
-        placeholder="Houres"
-      />
-    </>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Wrapper>
+        <Boards>
+          <Droppable droppableId="one">
+            {(provided) => (
+              <Board ref={provided.innerRef} {...provided.droppableProps}>
+                {toDos.map((toDo, index) => (
+                  // 버그 발생
+                  // => draggable의 key가 draggableId 같아야 함!!
+                  // => key={index}를 key={toDo}이렇게 변경
+                  <Draggable key={toDo} draggableId={toDo} index={index}>
+                    {(provided) => (
+                      <Card
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                        {...provided.draggableProps}
+                      >
+                        {toDo}
+                      </Card>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </Board>
+            )}
+          </Droppable>
+        </Boards>
+      </Wrapper>
+    </DragDropContext>
   );
 }
+
 export default App;
