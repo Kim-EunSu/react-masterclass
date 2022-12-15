@@ -15,22 +15,29 @@ const Wrapper = styled.div`
   min-height: 200px;
 `;
 
+const Title = styled.h2`
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 18px;
+`;
+
 //Bodard가 toDos prop을 가지며 droppableId가 필요
 function Board({ toDos, boardId }: IBoardProps) {
   return (
-    <div>
+    <Wrapper>
+      <Title>{boardId}</Title>
       <Droppable droppableId={boardId}>
         {(provided) => (
-          <Wrapper ref={provided.innerRef} {...provided.droppableProps}>
+          <div ref={provided.innerRef} {...provided.droppableProps}>
             {toDos.map((toDo, index) => (
               <DragabbleCard key={toDo} toDo={toDo} index={index} />
             ))}
             {provided.placeholder}
-          </Wrapper>
+          </div>
         )}
       </Droppable>
-      ;
-    </div>
+    </Wrapper>
   );
 }
 
