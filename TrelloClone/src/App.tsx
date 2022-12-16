@@ -28,6 +28,7 @@ function App() {
   // onDragEnd는 어떤 일이 일어났는지에 대한 정보로 많은 argument를 줌
   const onDragEnd = (info: DropResult) => {
     const { destination, draggableId, source } = info;
+    console.log(info);
     if (!destination) return;
     //same board 에서의 움직임만 해당됨
     if (destination?.droppableId === source.droppableId) {
@@ -35,8 +36,12 @@ function App() {
       setToDos((allBoards) => {
         //boardCopy는 source의 droppabledID로부터 array를 복사하는 과정
         const boardCopy = [...allBoards[source.droppableId]];
+        // to Do 받아오기
+        const taskObj = boardCopy[source.index];
+
         boardCopy.splice(source.index, 1);
-        boardCopy.splice(destination?.index, 0, draggableId);
+        // board를 받아서 to do object를 다시 넣어줌
+        boardCopy.splice(destination?.index, 0, taskObj);
         console.log(boardCopy); //움직이고 난 전체배열
         return {
           ...allBoards,
@@ -50,11 +55,15 @@ function App() {
       setToDos((allBoards) => {
         // soureceBoard는 움직임이 시작된 board
         const sourceBoard = [...allBoards[source.droppableId]];
+
+        // to Do 받아오기
+        const taskObj = sourceBoard[source.index];
+
         // destionationBoard는 움직임이 끝난 board
         const destinationBoard = [...allBoards[destination.droppableId]];
 
         sourceBoard.splice(source.index, 1);
-        destinationBoard.splice(destination?.index, 0, draggableId);
+        destinationBoard.splice(destination?.index, 0, taskObj);
         return {
           ...allBoards,
           [source.droppableId]: sourceBoard,
