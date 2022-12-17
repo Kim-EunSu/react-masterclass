@@ -1,7 +1,5 @@
-import React from "react";
-
 function Home() {
-  return <div style={{ backgroundColor: "black", height: "200vh" }}>Home</div>;
+  return <h1 style={{ backgroundColor: "white", height: "200vh" }}>Home</h1>;
 }
 
 export default Home;
