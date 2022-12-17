@@ -1,14 +1,12 @@
 import React from "react";
+import ReactDOM from "react-dom/client";
 import { RecoilRoot } from "recoil";
-import { ThemeProvider } from "styled-components";
-import { createRoot } from "react-dom/client";
 import App from "./App";
-import { darkTheme } from "./theme";
-
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { theme } from "./theme";
 
 const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -71,13 +69,14 @@ a {
   color:inherit;
 }
 `;
-const container = document.getElementById("root") as HTMLElement;
-const root = createRoot(container);
 
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 root.render(
   <React.StrictMode>
     <RecoilRoot>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={theme}>
         <GlobalStyle />
         <App />
       </ThemeProvider>
