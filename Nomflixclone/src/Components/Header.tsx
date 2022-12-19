@@ -126,7 +126,7 @@ function Header() {
       } else {
         navAnimation.start("top");
       }
-      console.log(scrollY.get());
+      // console.log(scrollY.get());
     });
   }, [scrollY, navVariants]);
 
