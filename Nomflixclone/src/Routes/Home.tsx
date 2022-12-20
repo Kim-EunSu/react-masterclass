@@ -6,6 +6,7 @@ import { makeImagePath } from "../utils";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
 import { useState } from "react";
 import { useMatch, useNavigate } from "react-router-dom";
+import { url } from "inspector";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -93,6 +94,40 @@ const Overlay = styled(motion.div)`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
+`;
+
+const BigMovie = styled(motion.div)`
+  position: absolute;
+  width: 40vw;
+  height: 80vh;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: ${(props) => props.theme.black.lighter};
+`;
+
+const BigCover = styled.div`
+  width: 100%;
+  height: 400px;
+  background-size: cover;
+  background-position: center top;
+`;
+
+const BigTitle = styled.h3`
+  color: ${(props) => props.theme.white.lighter};
+  font-size: 28px;
+  position: relative;
+  padding: 10px;
+  top: -50px;
+`;
+
+const BigOverview = styled.p`
+  position: relative;
+  top: -50px;
+  padding: 20px;
+  color: ${(props) => props.theme.white.lighter};
 `;
 
 const rowVariants = {
@@ -195,6 +230,16 @@ function Home() {
     navigate(-1);
   };
 
+  // movieId를 이용해 API에서 얻어오 data에서 그 영화 찾기
+  // => 1. bigMovieMatch가 존재하는지부터 확인
+  // => + 연산자는 string을 number로 , ! 연산자는 값이 무조건 할당
+  // => ( movieId가 있을 때 find 함수가 동작하도록 했으니 !를 사용해서 find함수 안에있는 movieId는 항상 존재한다고 입력)
+  const clickedMovie =
+    bigMovieMatch?.params.movieId &&
+    data?.results.find((movie) => movie.id === +bigMovieMatch.params.movieId!);
+
+  console.log(clickedMovie);
+
   return (
     <Wrapper>
       {isLoading ? (
@@ -251,19 +296,27 @@ function Home() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 />
-                <motion.div
+                <BigMovie
+                  style={{ top: scrollY.get() + 100 }}
                   layoutId={bigMovieMatch.params.movieId}
-                  style={{
-                    position: "absolute",
-                    width: "40vw",
-                    height: "80vh",
-                    backgroundColor: "red",
-                    top: scrollY.get() + 100,
-                    left: 0,
-                    right: 0,
-                    margin: "0 auto",
-                  }}
-                />
+                >
+                  {/* 2. clickedMovie가 존재하는지 확인*/}
+                  {clickedMovie && (
+                    <>
+                      <BigCover
+                        style={{
+                          backgroundImage: `
+                          linear-gradient(to top,black, transparent),
+                          url(
+                           ${makeImagePath(clickedMovie.poster_path, "w500")}
+                         )`,
+                        }}
+                      />
+                      <BigTitle>{clickedMovie.title}</BigTitle>
+                      <BigOverview>{clickedMovie.overview}</BigOverview>
+                    </>
+                  )}
+                </BigMovie>
               </>
             ) : null}
           </AnimatePresence>
