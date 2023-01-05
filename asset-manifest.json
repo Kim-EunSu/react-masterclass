@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/movie_practice/static/css/main.cfb71f1c.css",
+    "main.js": "/movie_practice/static/js/main.6ccea796.js",
+    "index.html": "/movie_practice/index.html",
+    "main.cfb71f1c.css.map": "/movie_practice/static/css/main.cfb71f1c.css.map",
+    "main.6ccea796.js.map": "/movie_practice/static/js/main.6ccea796.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cfb71f1c.css",
+    "static/js/main.6ccea796.js"
+  ]
+}
